@@ -1,0 +1,108 @@
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// Controller1          controller                    
+// FrontLeft            motor         16              
+// FrontRight           motor         6               
+// RearLeft             motor         14              
+// RearRight            motor         11              
+// RightLift            motor         9               
+// LeftLift             motor         20              
+// pick                 motor         4               
+// gflipper             motor         1               
+// Inertial12           inertial      8               
+// EncoderAB            encoder       A, B            
+// EncoderCD            encoder       C, D            
+// EncoderGH            encoder       G, H            
+// LimitSwitchE         limit         E               
+// Vision18             vision        18              
+// ---- END VEXCODE CONFIGURED DEVICES ----
+#include <ctime>
+#include "vex.h"
+#include <iostream>
+using namespace vex;
+
+vex::competition Competition; 
+
+ 
+// define your global instances of motors and other devices here
+/*---------------------------------------------------------------------------*/
+/* Pre-Autonomous Functions */
+/* */
+/* You may want to perform some actions before the competition starts. */
+/* D
+\\ motor RearLeft 12.56, 16, 16, distanceUnits::in );o them in the following function. You must return from this function */
+/* or the autonomous and usercontrol tasks will not be started. This */
+/* function is only called once after the V5 has been powered on and */
+/* not every time that the robot is disabled. */
+/*---------------------------------------------------------------------------*/
+void pre_auton(void) {
+// Initializing Robot Configuration. DO NOT REMOVE!
+vexcodeInit();
+// All activities that occur before the competition starts
+// Example: clearing encoders, setting servo positions, ...
+}
+/*---------------------------------------------------------------------------*/
+/* */
+/* User Control Task */
+/* */
+/* This task is used to control your robot during the user control phase of */
+/* a VEX Competition. */
+/* */
+/* You must modify the code to add your own robot specific commands here. */
+/*---------------------------------------------------------------------------*/
+
+void drive(){
+ 
+while(true){ // infinite loop
+          FrontLeft.spin(vex::directionType::rev, (-Controller1.Axis1.value() - Controller1.Axis3.value()), vex::voltageUnits::volt);
+          FrontRight.spin(vex::directionType::rev, (-Controller1.Axis1.value() + Controller1.Axis3.value()), vex::voltageUnits::volt);
+          RearLeft.spin(vex::directionType::rev, (-Controller1.Axis1.value() - Controller1.Axis3.value()), vex::voltageUnits::volt);
+          RearRight.spin(vex::directionType::rev, (-Controller1.Axis1.value() + Controller1.Axis3.value()), vex::voltageUnits::volt);
+        
+          LeftLift.spin(vex::directionType::fwd, Controller1.ButtonB.pressing()*12.0 -Controller1.ButtonA.pressing()*12.0, vex::voltageUnits::volt); //Sets the left motor power to R2
+          RightLift.spin(vex::directionType::rev, Controller1.ButtonB.pressing()*12.0 -Controller1.ButtonA.pressing()*12.0, vex::voltageUnits::volt); //Sets the right motor power to R2
+          pick.spin(vex::directionType::fwd, Controller1.ButtonL2.pressing()*12.0 - Controller1.ButtonR2.pressing()*12.0, vex::voltageUnits::volt); //Sets the right motor power to L2
+          gflipper.spin(vex::directionType::fwd, Controller1.ButtonL1.pressing()*12.0 - Controller1.ButtonR1.pressing()*12.0, vex::voltageUnits::volt); //Sets the right motor power to L2
+
+        wait(1, msec);
+    }
+}
+
+//
+// Main will set up the competition functions and callbacks.
+//
+
+void autonomous(){
+ }
+
+int main() {
+ Inertial12.calibrate();
+ wait(2, seconds);
+Competition.autonomous(autonomous);
+Competition.drivercontrol(drive);
+
+
+//Set up callbacks for autonomous and driver control periods.
+
+ 
+// Run the pre-autonomous function.
+
+
+//Set up callbacks for autonomous and driver control periods.
+ 
+// Run the pre-autonomous function.
+//
+// Prevent main from exiting with an infinite loop.
+ FrontLeft.stop();
+ RearLeft.stop();
+ FrontRight.stop();
+ RearRight.stop();
+ LeftLift.stop();
+ RightLift.stop();
+ pick.stop();
+ gflipper.stop();
+ 
+ return 0;
+ // Set up callbacks for autonomous and driver control periods.
+}
