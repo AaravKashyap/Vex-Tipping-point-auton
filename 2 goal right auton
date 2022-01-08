@@ -1,3 +1,5 @@
+
+   
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
@@ -398,6 +400,14 @@ void autonomous(){
  spin1();
  Backwardintake(700);
  wait(0.25, seconds);
+ TurnRightSide(50);
+ spin6();
+ Backwardintake(25);
+ TurnLeftOneSide(22);
+ driveFwd(1515);
+ wait(0.75, seconds);
+ spin7();
+ Backwardintake(800);
  spin6();
  }
 
